@@ -11,13 +11,14 @@
       --pink-3: #ff9fc5;
       --rose: #ff4f91;
       --rose-dark: #d62f72;
-      --gray: #b8b8c7;
-      --card: rgba(255, 255, 255, 0.82);
+      --card: rgba(255, 255, 255, 0.84);
       --text: #5c1a3f;
       --shadow: 0 20px 45px rgba(149, 35, 91, 0.18);
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -50,7 +51,8 @@
       border-radius: 4px;
     }
 
-    .heart::before, .heart::after {
+    .heart::before,
+    .heart::after {
       content: "";
       position: absolute;
       width: 20px;
@@ -59,18 +61,33 @@
       border-radius: 50%;
     }
 
-    .heart::before { left: -10px; top: 0; }
-    .heart::after { left: 0; top: -10px; }
+    .heart::before {
+      left: -10px;
+      top: 0;
+    }
+
+    .heart::after {
+      left: 0;
+      top: -10px;
+    }
 
     @keyframes floatUp {
-      0% { transform: translateY(0) rotate(45deg); opacity: 0; }
-      10% { opacity: 1; }
-      100% { transform: translateY(-120vh) rotate(45deg); opacity: 0; }
+      0% {
+        transform: translateY(0) rotate(45deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-120vh) rotate(45deg);
+        opacity: 0;
+      }
     }
 
     .card {
-      width: min(92vw, 760px);
-      min-height: 520px;
+      width: min(92vw, 790px);
+      min-height: 560px;
       background: var(--card);
       border: 1px solid rgba(255, 255, 255, 0.65);
       backdrop-filter: blur(4px);
@@ -90,59 +107,104 @@
     }
 
     .subtitle {
-      margin: 0 0 20px;
+      margin: 0 0 16px;
       text-align: center;
       font-size: 1.05rem;
       opacity: 0.85;
     }
 
-    .meter-wrap {
-      margin: 0 auto 18px;
-      max-width: 440px;
+    .challenge-wrap {
+      margin: 0 auto 16px;
+      max-width: 520px;
+      padding: 14px;
+      border: 1px solid rgba(125, 22, 72, 0.16);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.45);
+      text-align: center;
     }
 
-    .meter-label {
-      font-weight: 700;
-      font-size: 0.95rem;
-      margin-bottom: 8px;
+    .challenge-head {
       display: flex;
       justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      margin-bottom: 8px;
     }
 
-    .meter {
+    .challenge-meter {
       width: 100%;
-      height: 14px;
-      background: rgba(255, 255, 255, 0.9);
+      height: 12px;
       border: 1px solid rgba(125, 22, 72, 0.2);
       border-radius: 999px;
+      background: rgba(255, 255, 255, 0.8);
       overflow: hidden;
+      margin-bottom: 10px;
     }
 
-    .meter-fill {
+    .challenge-meter-fill {
       width: 0%;
       height: 100%;
-      background: linear-gradient(90deg, #ff8ebb, #ff4f91);
-      transition: width 0.22s ease;
+      background: linear-gradient(90deg, #ff93be, #ff4f91);
+      transition: width 0.2s ease;
     }
 
-    .tap-unlock {
-      margin: 10px auto 0;
-      display: block;
-      border: none;
-      background: #fff;
-      color: #8a1e53;
+    .snake-canvas {
+      width: min(80vw, 224px);
+      height: min(80vw, 224px);
+      border-radius: 12px;
+      border: 1px solid rgba(125, 22, 72, 0.22);
+      background: #fff4fa;
+      image-rendering: pixelated;
+      touch-action: none;
+    }
+
+    .snake-help {
+      margin: 8px 0 10px;
+      font-size: 0.92rem;
       font-weight: 700;
-      padding: 8px 14px;
-      border-radius: 999px;
+      color: #8f2857;
+    }
+
+    .snake-controls {
+      display: grid;
+      grid-template-columns: repeat(3, 52px);
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .snake-controls button,
+    .snake-restart {
+      border: none;
+      border-radius: 10px;
+      background: #ffffff;
+      color: #8b1d54;
+      font-weight: 800;
+      box-shadow: 0 8px 16px rgba(125, 22, 72, 0.14);
       cursor: pointer;
-      box-shadow: 0 8px 18px rgba(138, 30, 83, 0.14);
+    }
+
+    .snake-controls button {
+      height: 42px;
+      font-size: 1.12rem;
+    }
+
+    .snake-controls .spacer {
+      visibility: hidden;
+    }
+
+    .snake-restart {
+      padding: 8px 14px;
+      font-size: 0.9rem;
     }
 
     .button-arena {
       position: relative;
-      height: 180px;
-      margin: 14px auto 8px;
-      max-width: 680px;
+      height: 185px;
+      margin: 10px auto 8px;
+      max-width: 700px;
       border-radius: 16px;
       background: rgba(255, 255, 255, 0.36);
       border: 1px dashed rgba(125, 22, 72, 0.18);
@@ -150,26 +212,29 @@
 
     .btn {
       position: absolute;
-      min-width: 140px;
+      min-width: 146px;
       min-height: 58px;
       border: none;
       border-radius: 14px;
       font-size: 1.2rem;
       font-weight: 800;
       cursor: pointer;
-      transition: transform 0.15s ease, filter 0.15s ease;
+      transition: transform 0.16s ease, filter 0.16s ease;
       user-select: none;
       touch-action: manipulation;
+      z-index: 2;
     }
 
-    .btn:active { transform: scale(0.97); }
+    .btn:active {
+      transform: scale(0.97);
+    }
 
     #yesBtn {
       left: 20%;
       top: 50%;
       transform: translateY(-50%);
       background: linear-gradient(180deg, #ff6fab, #ff438d);
-      color: white;
+      color: #ffffff;
       box-shadow: 0 10px 22px rgba(255, 67, 141, 0.36);
     }
 
@@ -192,21 +257,30 @@
     #noBtn {
       left: 62%;
       top: 50%;
-      transform: translateY(-50%);
-      background: white;
+      background: #ffffff;
       color: #b31e61;
       border: 2px solid #ff4f91;
       box-shadow: 0 8px 18px rgba(255, 79, 145, 0.24);
+      transition:
+        left 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+        top 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.16s ease;
     }
 
     .whoosh {
-      animation: whoosh 0.18s ease;
+      animation: whoosh 0.3s ease;
     }
 
     @keyframes whoosh {
-      0% { transform: translateY(-50%) scale(1); filter: blur(0); }
-      35% { transform: translateY(-50%) scale(0.9); filter: blur(0.8px); }
-      100% { transform: translateY(-50%) scale(1); filter: blur(0); }
+      0% {
+        transform: scale(1);
+      }
+      35% {
+        transform: scale(0.92);
+      }
+      100% {
+        transform: scale(1);
+      }
     }
 
     .message {
@@ -235,9 +309,17 @@
     }
 
     @keyframes burstUp {
-      0% { transform: translateY(0) scale(0.6); opacity: 0; }
-      20% { opacity: 1; }
-      100% { transform: translateY(-90px) scale(1.2); opacity: 0; }
+      0% {
+        transform: translateY(0) scale(0.6);
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-90px) scale(1.2);
+        opacity: 0;
+      }
     }
 
     .final-screen {
@@ -247,26 +329,42 @@
       animation: fadeIn 0.35s ease;
     }
 
-    .final-screen.active { display: block; }
+    .final-screen.active {
+      display: block;
+    }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .final-gallery {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin: 0 auto;
+      max-width: 760px;
     }
 
     .final-image {
-      width: min(86vw, 390px);
-      max-height: 62vh;
+      width: 100%;
+      max-height: 54vh;
       object-fit: contain;
-      border-radius: 16px;
+      border-radius: 14px;
       background: rgba(255, 255, 255, 0.82);
       box-shadow: 0 16px 36px rgba(125, 22, 72, 0.2);
     }
 
     .img-fallback {
       display: none;
-      width: min(86vw, 390px);
-      height: 420px;
+      width: min(86vw, 500px);
+      height: 300px;
       margin: 0 auto;
       border-radius: 16px;
       border: 2px dashed rgba(125, 22, 72, 0.35);
@@ -287,7 +385,7 @@
 
     .replay {
       border: none;
-      background: #fff;
+      background: #ffffff;
       color: #8d1a53;
       font-size: 1rem;
       font-weight: 800;
@@ -298,11 +396,32 @@
     }
 
     @media (max-width: 640px) {
-      .card { min-height: 560px; padding: 22px 14px 18px; }
-      .button-arena { height: 200px; }
-      .btn { min-width: 118px; min-height: 54px; font-size: 1.08rem; }
-      #yesBtn { left: 12%; }
-      #noBtn { left: 58%; }
+      .card {
+        min-height: 620px;
+        padding: 22px 14px 18px;
+      }
+
+      .button-arena {
+        height: 195px;
+      }
+
+      .btn {
+        min-width: 118px;
+        min-height: 54px;
+        font-size: 1.08rem;
+      }
+
+      #yesBtn {
+        left: 12%;
+      }
+
+      .final-gallery {
+        grid-template-columns: 1fr;
+      }
+
+      .final-image {
+        max-height: 32vh;
+      }
     }
   </style>
 </head>
@@ -322,36 +441,62 @@
       <h1>Will you be my Valentine?</h1>
       <p class="subtitle">Choose wisely.</p>
 
-      <div class="meter-wrap">
-        <div class="meter-label">
-          <span>Unlock Yes</span>
-          <span id="meterPercent">0%</span>
+      <div class="challenge-wrap">
+        <div class="challenge-head">
+          <span>Unlock Yes: mini Snake</span>
+          <span id="snakeProgress">0 / 3 hearts</span>
         </div>
-        <div class="meter" aria-label="Unlock Yes meter" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-          <div class="meter-fill" id="meterFill"></div>
+        <div class="challenge-meter" aria-label="Snake unlock progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="challenge-meter-fill" id="snakeMeterFill"></div>
         </div>
-        <button class="tap-unlock" id="tapUnlock" type="button">Tap to unlock</button>
+
+        <canvas
+          id="snakeCanvas"
+          class="snake-canvas"
+          width="224"
+          height="224"
+          aria-label="Snake challenge"
+        ></canvas>
+
+        <p class="snake-help">Eat 3 hearts to unlock Yes. Use arrow keys or buttons.</p>
+
+        <div class="snake-controls" aria-label="Snake controls">
+          <span class="spacer"></span>
+          <button type="button" data-dir="up">↑</button>
+          <span class="spacer"></span>
+          <button type="button" data-dir="left">←</button>
+          <button type="button" data-dir="down">↓</button>
+          <button type="button" data-dir="right">→</button>
+        </div>
+
+        <button class="snake-restart" id="snakeRestart" type="button">Restart Snake</button>
       </div>
 
       <div class="button-arena" id="buttonArena">
         <button class="btn locked" id="yesBtn" type="button" disabled>
           Yes
-          <span class="lock-note">🔒 Locked</span>
+          <span class="lock-note">Locked</span>
         </button>
         <button class="btn" id="noBtn" type="button">No</button>
       </div>
 
-      <p class="message" id="messageArea">Tap around to fill the heart meter.</p>
+      <p class="message" id="messageArea">Beat mini Snake to unlock the Yes button.</p>
       <div class="burst" id="burstLayer" aria-hidden="true"></div>
     </section>
 
     <section class="final-screen" id="finalScreen">
-      <img id="finalImage" class="final-image" alt="Me giving flowers" />
+      <div class="final-gallery" id="finalGallery">
+        <img class="final-image" alt="Me giving flowers 1" />
+        <img class="final-image" alt="Me giving flowers 2" />
+        <img class="final-image" alt="Me giving flowers 3" />
+      </div>
+
       <div id="imgFallback" class="img-fallback">
-        Couldn’t load image.<br /><br />
+        Could not load image.<br /><br />
         Place <strong>me-flowers.png</strong> next to <strong>index.html</strong><br />
         or replace the fallback data URL in the script.
       </div>
+
       <p class="final-text">sorry for taking so long, I love you</p>
       <button class="replay" id="replayBtn" type="button">Replay</button>
     </section>
@@ -361,81 +506,269 @@
     // Replace this with your own PNG data URL if you want to embed directly.
     const FALLBACK_DATA_URL = "data:image/png;base64,REPLACE_WITH_BASE64_PNG";
 
-    const MAX_TAPS = 6;
-    let taps = 0;
-    let noMoveCooldown = 0;
-    let fallbackUsed = false;
+    const NO_DODGE_DISTANCE_DESKTOP = 90;
+    const NO_DODGE_DISTANCE_TOUCH = 100;
+    const NO_DODGE_COOLDOWN_MS = 320;
+    const NO_PADDING = 8;
 
-    const card = document.getElementById("card");
+    const SNAKE_TARGET = 3;
+    const GRID_COUNT = 14;
+    const CELL_SIZE = 16;
+    const SNAKE_TICK_MS = 130;
+
+    let noMoveCooldown = 0;
+    let snake = [];
+    let direction = { x: 1, y: 0 };
+    let queuedDirection = { x: 1, y: 0 };
+    let food = { x: 9, y: 7 };
+    let snakeScore = 0;
+    let snakeLoop = null;
+    let snakeUnlocked = false;
+
     const startScreen = document.getElementById("startScreen");
     const finalScreen = document.getElementById("finalScreen");
     const arena = document.getElementById("buttonArena");
     const yesBtn = document.getElementById("yesBtn");
     const noBtn = document.getElementById("noBtn");
-    const tapUnlock = document.getElementById("tapUnlock");
-    const meterFill = document.getElementById("meterFill");
-    const meterPercent = document.getElementById("meterPercent");
     const messageArea = document.getElementById("messageArea");
     const burstLayer = document.getElementById("burstLayer");
-    const finalImage = document.getElementById("finalImage");
-    const imgFallback = document.getElementById("imgFallback");
     const replayBtn = document.getElementById("replayBtn");
-    const meterEl = document.querySelector(".meter");
 
-    const tapMessages = [
-      "Nice. Heart fuel added.",
-      "Patience level: adorable.",
-      "You are suspiciously committed.",
-      "Almost there. Keep tapping!",
-      "That’s basically true love energy.",
-      "Lock is panicking..."
+    const snakeCanvas = document.getElementById("snakeCanvas");
+    const snakeCtx = snakeCanvas.getContext("2d");
+    const snakeProgress = document.getElementById("snakeProgress");
+    const snakeMeterFill = document.getElementById("snakeMeterFill");
+    const snakeRestart = document.getElementById("snakeRestart");
+    const snakeMeter = document.querySelector(".challenge-meter");
+
+    const finalGallery = document.getElementById("finalGallery");
+    const finalImages = Array.from(document.querySelectorAll(".final-image"));
+    const imgFallback = document.getElementById("imgFallback");
+
+    const snakeFoodMessages = [
+      "Nice, one heart collected.",
+      "Snake has rizz.",
+      "Almost there, keep going.",
+      "Love level rising fast."
     ];
 
     function setMessage(text) {
       messageArea.textContent = text;
     }
 
-    function updateMeter() {
-      const pct = Math.min(100, Math.round((taps / MAX_TAPS) * 100));
-      meterFill.style.width = pct + "%";
-      meterPercent.textContent = pct + "%";
-      meterEl.setAttribute("aria-valuenow", String(pct));
+    function lockYes() {
+      yesBtn.disabled = true;
+      yesBtn.classList.add("locked");
+      yesBtn.querySelector(".lock-note").textContent = "Locked";
     }
 
     function unlockYes() {
+      if (snakeUnlocked) return;
+      snakeUnlocked = true;
       yesBtn.disabled = false;
       yesBtn.classList.remove("locked");
-      yesBtn.querySelector(".lock-note").textContent = "✅ Unlocked";
-      setMessage("Ok, you unlocked Yes. Now click it.");
+      yesBtn.querySelector(".lock-note").textContent = "Unlocked";
+      setMessage("Snake cleared. Yes is unlocked now.");
+      stopSnake();
       celebrate();
     }
 
-    function addProgress() {
-      if (taps >= MAX_TAPS) return;
-      taps += 1;
-      updateMeter();
-      setMessage(tapMessages[Math.min(taps - 1, tapMessages.length - 1)]);
-      if (taps >= MAX_TAPS) unlockYes();
+    function celebrate() {
+      const hearts = ["<3", "*", "<3", "*"];
+      for (let i = 0; i < 10; i += 1) {
+        const el = document.createElement("i");
+        el.textContent = hearts[i % hearts.length];
+        el.style.left = 20 + Math.random() * 60 + "%";
+        el.style.bottom = 24 + Math.random() * 22 + "%";
+        el.style.animationDelay = Math.random() * 0.2 + "s";
+        burstLayer.appendChild(el);
+        setTimeout(() => el.remove(), 900);
+      }
+    }
+
+    function updateSnakeProgress() {
+      const pct = Math.min(100, Math.round((snakeScore / SNAKE_TARGET) * 100));
+      snakeProgress.textContent = snakeScore + " / " + SNAKE_TARGET + " hearts";
+      snakeMeterFill.style.width = pct + "%";
+      snakeMeter.setAttribute("aria-valuenow", String(pct));
+      if (snakeScore >= SNAKE_TARGET) {
+        unlockYes();
+      }
+    }
+
+    function randomCell() {
+      return Math.floor(Math.random() * GRID_COUNT);
+    }
+
+    function spawnFood() {
+      let next = { x: randomCell(), y: randomCell() };
+      let guard = 0;
+      while (snake.some((segment) => segment.x === next.x && segment.y === next.y) && guard < 200) {
+        next = { x: randomCell(), y: randomCell() };
+        guard += 1;
+      }
+      food = next;
+    }
+
+    function drawCell(x, y, color) {
+      snakeCtx.fillStyle = color;
+      snakeCtx.fillRect(x * CELL_SIZE + 1, y * CELL_SIZE + 1, CELL_SIZE - 2, CELL_SIZE - 2);
+    }
+
+    function drawSnake() {
+      snakeCtx.fillStyle = "#fff4fa";
+      snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+
+      // subtle grid lines to make movement easier to track
+      snakeCtx.strokeStyle = "rgba(143, 40, 87, 0.08)";
+      for (let i = 0; i <= GRID_COUNT; i += 1) {
+        const pos = i * CELL_SIZE;
+        snakeCtx.beginPath();
+        snakeCtx.moveTo(pos, 0);
+        snakeCtx.lineTo(pos, snakeCanvas.height);
+        snakeCtx.stroke();
+        snakeCtx.beginPath();
+        snakeCtx.moveTo(0, pos);
+        snakeCtx.lineTo(snakeCanvas.width, pos);
+        snakeCtx.stroke();
+      }
+
+      snake.forEach((segment, index) => {
+        drawCell(segment.x, segment.y, index === 0 ? "#ff4f91" : "#ff82b2");
+      });
+
+      snakeCtx.beginPath();
+      snakeCtx.fillStyle = "#d6296a";
+      snakeCtx.arc(
+        food.x * CELL_SIZE + CELL_SIZE / 2,
+        food.y * CELL_SIZE + CELL_SIZE / 2,
+        CELL_SIZE * 0.34,
+        0,
+        Math.PI * 2
+      );
+      snakeCtx.fill();
+    }
+
+    function resetSnakeBody() {
+      snake = [
+        { x: 4, y: 7 },
+        { x: 3, y: 7 },
+        { x: 2, y: 7 }
+      ];
+      direction = { x: 1, y: 0 };
+      queuedDirection = { x: 1, y: 0 };
+      spawnFood();
+      drawSnake();
+    }
+
+    function resetSnakeGame() {
+      stopSnake();
+      snakeUnlocked = false;
+      snakeScore = 0;
+      lockYes();
+      updateSnakeProgress();
+      resetSnakeBody();
+    }
+
+    function stopSnake() {
+      if (!snakeLoop) return;
+      clearInterval(snakeLoop);
+      snakeLoop = null;
+    }
+
+    function setDirection(nextDir) {
+      if (!nextDir) return;
+      if (nextDir.x === -queuedDirection.x && nextDir.y === -queuedDirection.y) {
+        return;
+      }
+      queuedDirection = nextDir;
+    }
+
+    function stepSnake() {
+      direction = queuedDirection;
+
+      const head = snake[0];
+      const next = {
+        x: (head.x + direction.x + GRID_COUNT) % GRID_COUNT,
+        y: (head.y + direction.y + GRID_COUNT) % GRID_COUNT
+      };
+
+      if (snake.some((segment) => segment.x === next.x && segment.y === next.y)) {
+        resetSnakeBody();
+        setMessage("Snake bonked itself. Progress is kept, keep going.");
+        return;
+      }
+
+      snake.unshift(next);
+
+      const ateFood = next.x === food.x && next.y === food.y;
+      if (ateFood) {
+        snakeScore += 1;
+        updateSnakeProgress();
+        if (snakeScore < SNAKE_TARGET) {
+          const msg = snakeFoodMessages[Math.min(snakeScore - 1, snakeFoodMessages.length - 1)];
+          setMessage(msg);
+          spawnFood();
+        }
+      } else {
+        snake.pop();
+      }
+
+      drawSnake();
+    }
+
+    function startSnake() {
+      if (snakeUnlocked || snakeLoop || startScreen.style.display === "none") return;
+      snakeLoop = setInterval(stepSnake, SNAKE_TICK_MS);
+    }
+
+    function directionFromKey(key) {
+      if (key === "ArrowUp" || key === "w" || key === "W") return { x: 0, y: -1 };
+      if (key === "ArrowDown" || key === "s" || key === "S") return { x: 0, y: 1 };
+      if (key === "ArrowLeft" || key === "a" || key === "A") return { x: -1, y: 0 };
+      if (key === "ArrowRight" || key === "d" || key === "D") return { x: 1, y: 0 };
+      return null;
     }
 
     function rectOverlap(a, b) {
       return !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom);
     }
 
+    function pointToRectDistance(x, y, rect) {
+      const dx = Math.max(rect.left - x, 0, x - rect.right);
+      const dy = Math.max(rect.top - y, 0, y - rect.bottom);
+      return Math.hypot(dx, dy);
+    }
+
+    function resetNoPosition() {
+      const arenaRect = arena.getBoundingClientRect();
+      const noRect = noBtn.getBoundingClientRect();
+
+      const left = Math.max(
+        NO_PADDING,
+        Math.min(arenaRect.width - noRect.width - NO_PADDING, Math.round(arenaRect.width * 0.62))
+      );
+      const top = Math.max(
+        NO_PADDING,
+        Math.min(arenaRect.height - noRect.height - NO_PADDING, Math.round(arenaRect.height * 0.5 - noRect.height / 2))
+      );
+
+      noBtn.style.left = left + "px";
+      noBtn.style.top = top + "px";
+    }
+
     function placeNoButtonRandom() {
       const aRect = arena.getBoundingClientRect();
-      const yesRect = yesBtn.getBoundingClientRect();
+      const yRect = yesBtn.getBoundingClientRect();
       const nRect = noBtn.getBoundingClientRect();
 
-      const pad = 8;
-      const maxLeft = aRect.width - nRect.width - pad;
-      const maxTop = aRect.height - nRect.height - pad;
+      const maxLeft = aRect.width - nRect.width - NO_PADDING;
+      const maxTop = aRect.height - nRect.height - NO_PADDING;
+      if (maxLeft <= NO_PADDING || maxTop <= NO_PADDING) return;
 
-      if (maxLeft <= pad || maxTop <= pad) return;
-
-      for (let i = 0; i < 60; i++) {
-        const left = Math.random() * (maxLeft - pad) + pad;
-        const top = Math.random() * (maxTop - pad) + pad;
+      for (let i = 0; i < 70; i += 1) {
+        const left = Math.random() * (maxLeft - NO_PADDING) + NO_PADDING;
+        const top = Math.random() * (maxTop - NO_PADDING) + NO_PADDING;
 
         const candidate = {
           left: aRect.left + left,
@@ -444,7 +777,7 @@
           bottom: aRect.top + top + nRect.height
         };
 
-        if (!rectOverlap(candidate, yesRect)) {
+        if (!rectOverlap(candidate, yRect)) {
           noBtn.style.left = left + "px";
           noBtn.style.top = top + "px";
           noBtn.classList.remove("whoosh");
@@ -455,101 +788,87 @@
       }
     }
 
-    function pointToRectDistance(x, y, rect) {
-      const dx = Math.max(rect.left - x, 0, x - rect.right);
-      const dy = Math.max(rect.top - y, 0, y - rect.bottom);
-      return Math.hypot(dx, dy);
-    }
-
     function tryDodge() {
       const now = Date.now();
-      if (now - noMoveCooldown < 110) return;
+      if (now - noMoveCooldown < NO_DODGE_COOLDOWN_MS) return;
       noMoveCooldown = now;
       placeNoButtonRandom();
     }
 
     function onArenaMove(e) {
       const noRect = noBtn.getBoundingClientRect();
-      if (pointToRectDistance(e.clientX, e.clientY, noRect) < 80) {
+      if (pointToRectDistance(e.clientX, e.clientY, noRect) < NO_DODGE_DISTANCE_DESKTOP) {
         tryDodge();
       }
     }
 
-    function celebrate() {
-      const hearts = ["💖", "💕", "💘", "💗", "💓"];
-      for (let i = 0; i < 10; i++) {
-        const el = document.createElement("i");
-        el.textContent = hearts[i % hearts.length];
-        el.style.left = 20 + Math.random() * 60 + "%";
-        el.style.bottom = 24 + Math.random() * 22 + "%";
-        el.style.animationDelay = (Math.random() * 0.2) + "s";
-        burstLayer.appendChild(el);
-        setTimeout(() => el.remove(), 1000);
-      }
+    function allImagesLoadedFrom(source, done) {
+      let pending = finalImages.length;
+      let successCount = 0;
+
+      finalImages.forEach((img) => {
+        img.onload = () => {
+          successCount += 1;
+          pending -= 1;
+          if (pending === 0) done(successCount === finalImages.length);
+        };
+
+        img.onerror = () => {
+          pending -= 1;
+          if (pending === 0) done(false);
+        };
+
+        img.src = source;
+      });
+    }
+
+    function showFinalWithFallback() {
+      finalGallery.style.display = "none";
+      imgFallback.style.display = "block";
+    }
+
+    function showFinalGallery() {
+      finalGallery.style.display = "grid";
+      imgFallback.style.display = "none";
+    }
+
+    function loadFinalImages() {
+      const hasValidFallback =
+        FALLBACK_DATA_URL.startsWith("data:image/") &&
+        !FALLBACK_DATA_URL.includes("REPLACE_WITH_BASE64_PNG");
+
+      showFinalGallery();
+
+      // Preferred option: local file in same folder as index.html
+      allImagesLoadedFrom("me-flowers.png", (okLocal) => {
+        if (okLocal) return;
+
+        if (!hasValidFallback) {
+          showFinalWithFallback();
+          return;
+        }
+
+        allImagesLoadedFrom(FALLBACK_DATA_URL, (okFallback) => {
+          if (!okFallback) {
+            showFinalWithFallback();
+          }
+        });
+      });
     }
 
     function showFinalScreen() {
       startScreen.style.display = "none";
       finalScreen.classList.add("active");
-      loadFinalImage();
-    }
-
-    function loadFinalImage() {
-      fallbackUsed = false;
-      finalImage.style.display = "block";
-      imgFallback.style.display = "none";
-
-      finalImage.onload = () => {
-        finalImage.style.display = "block";
-        imgFallback.style.display = "none";
-      };
-
-      finalImage.onerror = () => {
-        const hasValidFallback = FALLBACK_DATA_URL.startsWith("data:image/") &&
-          !FALLBACK_DATA_URL.includes("REPLACE_WITH_BASE64_PNG");
-        if (!fallbackUsed && hasValidFallback) {
-          fallbackUsed = true;
-          finalImage.src = FALLBACK_DATA_URL;
-          return;
-        }
-        finalImage.style.display = "none";
-        imgFallback.style.display = "block";
-      };
-
-      // Preferred option: local file in same folder as index.html
-      finalImage.src = "me-flowers.png";
-    }
-
-    function resetNoPosition() {
-      noBtn.style.left = "62%";
-      noBtn.style.top = "50%";
+      loadFinalImages();
     }
 
     function resetGame() {
-      taps = 0;
-      updateMeter();
-      yesBtn.disabled = true;
-      yesBtn.classList.add("locked");
-      yesBtn.querySelector(".lock-note").textContent = "🔒 Locked";
-      setMessage("Tap around to fill the heart meter.");
-      startScreen.style.display = "block";
       finalScreen.classList.remove("active");
+      startScreen.style.display = "block";
+      setMessage("Beat mini Snake to unlock the Yes button.");
+      resetSnakeGame();
       resetNoPosition();
     }
-
-    // Unlock taps (card clicks)
-    card.addEventListener("click", (e) => {
-      if (startScreen.style.display === "none") return;
-      if (e.target === noBtn) return;
-      if (!yesBtn.disabled && e.target === yesBtn) return;
-      if (e.target === tapUnlock) return;
-      addProgress();
-    });
-
-    tapUnlock.addEventListener("click", (e) => {
-      e.stopPropagation();
-      addProgress();
-    });
 
     yesBtn.addEventListener("click", () => {
       if (yesBtn.disabled) return;
@@ -557,37 +876,94 @@
     });
 
     noBtn.addEventListener("mouseenter", tryDodge);
+    noBtn.addEventListener("pointerdown", (e) => {
+      e.preventDefault();
+      setMessage("Nice try.");
+      tryDodge();
+    });
     noBtn.addEventListener("click", (e) => {
       e.preventDefault();
       setMessage("Nice try.");
       tryDodge();
     });
 
-    // Desktop proximity dodge
     arena.addEventListener("mousemove", onArenaMove);
 
-    // Mobile: dodge on touch near button or direct tap
-    arena.addEventListener("touchstart", (e) => {
-      if (!e.touches || !e.touches[0]) return;
-      const t = e.touches[0];
-      const noRect = noBtn.getBoundingClientRect();
-      if (pointToRectDistance(t.clientX, t.clientY, noRect) < 90) {
-        e.preventDefault();
-        tryDodge();
-      }
-    }, { passive: false });
+    arena.addEventListener(
+      "touchstart",
+      (e) => {
+        if (!e.touches || !e.touches[0]) return;
+        const t = e.touches[0];
+        const noRect = noBtn.getBoundingClientRect();
+        if (pointToRectDistance(t.clientX, t.clientY, noRect) < NO_DODGE_DISTANCE_TOUCH) {
+          e.preventDefault();
+          tryDodge();
+        }
+      },
+      { passive: false }
+    );
 
-    noBtn.addEventListener("touchstart", (e) => {
+    noBtn.addEventListener(
+      "touchstart",
+      (e) => {
+        e.preventDefault();
+        setMessage("Nope. That button still has commitment issues.");
+        tryDodge();
+      },
+      { passive: false }
+    );
+
+    snakeCanvas.addEventListener("pointerdown", () => {
+      if (!snakeUnlocked) {
+        startSnake();
+        setMessage("Snake started. Eat 3 hearts to unlock Yes.");
+      }
+    });
+
+    document.querySelectorAll(".snake-controls button[data-dir]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const dir = btn.getAttribute("data-dir");
+        const next =
+          dir === "up"
+            ? { x: 0, y: -1 }
+            : dir === "down"
+            ? { x: 0, y: 1 }
+            : dir === "left"
+            ? { x: -1, y: 0 }
+            : { x: 1, y: 0 };
+        startSnake();
+        setDirection(next);
+      });
+    });
+
+    window.addEventListener("keydown", (e) => {
+      const next = directionFromKey(e.key);
+      if (!next) return;
+      if (startScreen.style.display === "none") return;
       e.preventDefault();
-      setMessage("Nope. That button has commitment issues.");
-      tryDodge();
-    }, { passive: false });
+      startSnake();
+      setDirection(next);
+    });
+
+    snakeRestart.addEventListener("click", () => {
+      if (snakeUnlocked) return;
+      snakeScore = 0;
+      updateSnakeProgress();
+      resetSnakeBody();
+      setMessage("Snake restarted. Easy mode: just collect 3 hearts.");
+    });
 
     replayBtn.addEventListener("click", resetGame);
-    window.addEventListener("resize", resetNoPosition);
+
+    window.addEventListener("resize", () => {
+      if (startScreen.style.display !== "none") {
+        resetNoPosition();
+      }
+      drawSnake();
+    });
 
     // Initial state
-    updateMeter();
+    resetSnakeGame();
     resetNoPosition();
   </script>
 </body>
