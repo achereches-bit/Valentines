@@ -85,6 +85,44 @@
       }
     }
 
+    .love-rain {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 6;
+      overflow: hidden;
+      display: none;
+    }
+
+    .love-rain.active {
+      display: block;
+    }
+
+    .rain-heart {
+      position: absolute;
+      top: -10vh;
+      color: #ff4f91;
+      text-shadow: 0 3px 8px rgba(255, 79, 145, 0.35);
+      animation-name: heartRain;
+      animation-timing-function: linear;
+      animation-fill-mode: forwards;
+      user-select: none;
+    }
+
+    @keyframes heartRain {
+      0% {
+        transform: translateY(-12vh) rotate(0deg);
+        opacity: 0;
+      }
+      8% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(120vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
     .card {
       width: min(92vw, 790px);
       min-height: 560px;
@@ -435,6 +473,7 @@
     <span class="heart" style="left:78%; animation-duration:12s; animation-delay:2.2s;"></span>
     <span class="heart" style="left:90%; animation-duration:8.8s; animation-delay:1.3s;"></span>
   </div>
+  <div class="love-rain" id="loveRain" aria-hidden="true"></div>
 
   <main class="card" id="card">
     <section id="startScreen">
@@ -444,7 +483,7 @@
       <div class="challenge-wrap">
         <div class="challenge-head">
           <span>Unlock Yes: mini Snake</span>
-          <span id="snakeProgress">0 / 3 hearts</span>
+          <span id="snakeProgress">0 / 10 hearts</span>
         </div>
         <div class="challenge-meter" aria-label="Snake unlock progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
           <div class="challenge-meter-fill" id="snakeMeterFill"></div>
@@ -458,7 +497,7 @@
           aria-label="Snake challenge"
         ></canvas>
 
-        <p class="snake-help">Eat 3 hearts to unlock Yes. Use arrow keys or buttons.</p>
+        <p class="snake-help">Eat 10 hearts in a row to unlock Yes. Use arrow keys or buttons.</p>
 
         <div class="snake-controls" aria-label="Snake controls">
           <span class="spacer"></span>
@@ -497,7 +536,7 @@
         or replace the fallback data URL in the script.
       </div>
 
-      <p class="final-text">sorry for taking so long, I love you</p>
+      <p class="final-text">Sorry for taking so long, I love you soooooooo much!!!!</p>
       <button class="replay" id="replayBtn" type="button">Replay</button>
     </section>
   </main>
@@ -511,7 +550,7 @@
     const NO_DODGE_COOLDOWN_MS = 320;
     const NO_PADDING = 8;
 
-    const SNAKE_TARGET = 3;
+    const SNAKE_TARGET = 10;
     const GRID_COUNT = 14;
     const CELL_SIZE = 16;
     const SNAKE_TICK_MS = 130;
@@ -524,6 +563,8 @@
     let snakeScore = 0;
     let snakeLoop = null;
     let snakeUnlocked = false;
+    let loveRainLoop = null;
+    let loveRainTimeout = null;
 
     const startScreen = document.getElementById("startScreen");
     const finalScreen = document.getElementById("finalScreen");
@@ -533,6 +574,7 @@
     const messageArea = document.getElementById("messageArea");
     const burstLayer = document.getElementById("burstLayer");
     const replayBtn = document.getElementById("replayBtn");
+    const loveRain = document.getElementById("loveRain");
 
     const snakeCanvas = document.getElementById("snakeCanvas");
     const snakeCtx = snakeCanvas.getContext("2d");
@@ -615,6 +657,18 @@
       snakeCtx.fillRect(x * CELL_SIZE + 1, y * CELL_SIZE + 1, CELL_SIZE - 2, CELL_SIZE - 2);
     }
 
+    function drawFoodHeart(x, y, size, color) {
+      snakeCtx.save();
+      snakeCtx.fillStyle = color;
+      snakeCtx.beginPath();
+      snakeCtx.moveTo(x, y + size * 0.28);
+      snakeCtx.bezierCurveTo(x + size * 0.55, y - size * 0.36, x + size * 1.05, y + size * 0.38, x, y + size);
+      snakeCtx.bezierCurveTo(x - size * 1.05, y + size * 0.38, x - size * 0.55, y - size * 0.36, x, y + size * 0.28);
+      snakeCtx.closePath();
+      snakeCtx.fill();
+      snakeCtx.restore();
+    }
+
     function drawSnake() {
       snakeCtx.fillStyle = "#fff4fa";
       snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
@@ -637,16 +691,12 @@
         drawCell(segment.x, segment.y, index === 0 ? "#ff4f91" : "#ff82b2");
       });
 
-      snakeCtx.beginPath();
-      snakeCtx.fillStyle = "#d6296a";
-      snakeCtx.arc(
+      drawFoodHeart(
         food.x * CELL_SIZE + CELL_SIZE / 2,
-        food.y * CELL_SIZE + CELL_SIZE / 2,
-        CELL_SIZE * 0.34,
-        0,
-        Math.PI * 2
+        food.y * CELL_SIZE + CELL_SIZE / 2 - 4,
+        CELL_SIZE * 0.4,
+        "#d6296a"
       );
-      snakeCtx.fill();
     }
 
     function resetSnakeBody() {
@@ -694,8 +744,10 @@
       };
 
       if (snake.some((segment) => segment.x === next.x && segment.y === next.y)) {
+        snakeScore = 0;
+        updateSnakeProgress();
         resetSnakeBody();
-        setMessage("Snake bonked itself. Progress is kept, keep going.");
+        setMessage("Snake bonked itself. Streak reset to 0. Get 10 in a row.");
         return;
       }
 
@@ -802,6 +854,50 @@
       }
     }
 
+    function spawnRainHeart() {
+      const heart = document.createElement("span");
+      heart.className = "rain-heart";
+      heart.textContent = Math.random() < 0.5 ? "❤" : "💖";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = 14 + Math.random() * 28 + "px";
+      heart.style.animationDuration = 2 + Math.random() * 2 + "s";
+      heart.style.opacity = String(0.8 + Math.random() * 0.2);
+      loveRain.appendChild(heart);
+      heart.addEventListener("animationend", () => heart.remove(), { once: true });
+    }
+
+    function startLoveRain() {
+      stopLoveRain();
+      loveRain.classList.add("active");
+
+      for (let i = 0; i < 40; i += 1) {
+        spawnRainHeart();
+      }
+
+      loveRainLoop = setInterval(() => {
+        for (let i = 0; i < 6; i += 1) {
+          spawnRainHeart();
+        }
+      }, 170);
+
+      loveRainTimeout = setTimeout(() => {
+        stopLoveRain();
+      }, 9000);
+    }
+
+    function stopLoveRain() {
+      if (loveRainLoop) {
+        clearInterval(loveRainLoop);
+        loveRainLoop = null;
+      }
+      if (loveRainTimeout) {
+        clearTimeout(loveRainTimeout);
+        loveRainTimeout = null;
+      }
+      loveRain.classList.remove("active");
+      loveRain.textContent = "";
+    }
+
     function allImagesLoadedFrom(source, done) {
       let pending = finalImages.length;
       let successCount = 0;
@@ -860,6 +956,7 @@
       startScreen.style.display = "none";
       finalScreen.classList.add("active");
       loadFinalImages();
+      startLoveRain();
     }
 
     function resetGame() {
@@ -868,6 +965,7 @@
       setMessage("Beat mini Snake to unlock the Yes button.");
       resetSnakeGame();
       resetNoPosition();
+      stopLoveRain();
     }
 
     yesBtn.addEventListener("click", () => {
@@ -916,7 +1014,7 @@
     snakeCanvas.addEventListener("pointerdown", () => {
       if (!snakeUnlocked) {
         startSnake();
-        setMessage("Snake started. Eat 3 hearts to unlock Yes.");
+        setMessage("Snake started. Eat 10 hearts in a row to unlock Yes.");
       }
     });
 
@@ -950,7 +1048,7 @@
       snakeScore = 0;
       updateSnakeProgress();
       resetSnakeBody();
-      setMessage("Snake restarted. Easy mode: just collect 3 hearts.");
+      setMessage("Snake restarted. Collect 10 hearts in a row.");
     });
 
     replayBtn.addEventListener("click", resetGame);
